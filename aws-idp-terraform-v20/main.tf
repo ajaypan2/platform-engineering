@@ -27,16 +27,13 @@ module "eks" {
   vpc_id          = module.vpc.vpc_id
   enable_irsa     = true
 
-  aws_auth_configmap = {
-    manage_configmap = true
-    roles = [
-      {
-        rolearn  = "arn:aws:iam::767397705569:role/AWSReservedSSO_AWSAdministratorAccess_35990becbf6cf54f"
-        username = "admin"
-        groups   = ["system:masters"]
-      }
-    ]
-  }
+  cluster_additional_iam_roles = [
+    {
+      role_arn = "arn:aws:iam::767397705569:role/AWSReservedSSO_AWSAdministratorAccess_35990becbf6cf54f"
+      username = "admin"
+      groups   = ["system:masters"]
+    }
+  ]
 
   eks_managed_node_groups = {
     default = {
