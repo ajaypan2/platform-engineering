@@ -18,14 +18,14 @@ managedNodeGroups:
     maxSize: 3
     ssh:
       allow: true
-      publicKeyName: ws-defauly-keypair
+      publicKeyName: ws-default-keypair
 
 iam:
   withOIDC: true
 
-awsAuth:
-  roles:
-    - rolearn: arn:aws:iam::767397705569:role/AWSReservedSSO_AWSAdministratorAccess_35990becbf6cf54f
-      username: admin
-      groups:
-        - system:masters
+  awsAuthConfig:
+    roles:
+      - rolearn: arn:aws:iam::767397705569:role/AWSReservedSSO_AWSAdministratorAccess_35990becbf6cf54f
+        username: admin
+        groups:
+          - system:masters
