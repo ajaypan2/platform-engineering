@@ -1,0 +1,31 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: platform-eksctl-cluster
+  region: us-west-1
+  version: "1.29"
+
+availabilityZones:
+  - us-west-1a
+  - us-west-1c
+
+managedNodeGroups:
+  - name: platform-nodes
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 3
+    ssh:
+      allow: true
+      publicKeyName: ws-default-keypair
+
+iam:
+  withOIDC: true
+
+  awsAuthConfigMap:
+    mapRoles:
+      - rolearn: arn:aws:iam::767397705569:role/AWSReservedSSO_AWSAdministratorAccess_35990becbf6cf54f
+        username: admin
+        groups:
+          - system:masters
