@@ -26,5 +26,5 @@ variable "public_subnets" {
 variable "eks_cluster_name" {
   description = "EKS cluster name"
   type        = string
-  default     = "idp-cluster"
+  default     = "platform-engineering"
 }
