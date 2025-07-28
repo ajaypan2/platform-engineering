@@ -26,6 +26,15 @@ module "eks" {
   subnet_ids         = module.vpc.private_subnets
   vpc_id             = module.vpc.vpc_id
   enable_irsa        = true
+  manage_aws_auth_configmap = true
+
+  aws_auth_roles = [
+    {
+      rolearn  = "arn:aws:iam::767397705569:role/AWSReservedSSO_AWSAdministratorAccess_35990becbf6cf54f"
+      username = "admin"
+      groups   = ["system:masters"]
+    }
+  ]
 
   eks_managed_node_groups = {
     default = {
