@@ -16,6 +16,16 @@ module "vpc" {
   enable_dns_support     = true
 }
 
+locals {
+  admin_roles = [
+    {
+      rolearn  = "arn:aws:iam::767397705569:role/AWSReservedSSO_AWSAdministratorAccess_35990becbf6cf54f"
+      username = "admin"
+      groups   = ["system:masters"]
+    }
+  ]
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
@@ -27,16 +37,6 @@ module "eks" {
   vpc_id          = module.vpc.vpc_id
   enable_irsa     = true
 
-  aws_auth_roles = [
-    {
-      rolearn  = "arn:aws:iam::767397705569:role/AWSReservedSSO_AWSAdministratorAccess_35990becbf6cf54f"
-      username = "admin"
-      groups   = ["system:masters"]
-    }
-  ]
-
-  manage_aws_auth_configmap = true
-
   eks_managed_node_groups = {
     default = {
       min_size       = 1
@@ -45,4 +45,6 @@ module "eks" {
       instance_types = ["t3.medium"]
     }
   }
+
+  aws_auth_additional_roles = local.admin_roles
 }
